@@ -9,6 +9,8 @@
     /// </summary>
     /// <param name="value">The value</param>
     /// <param name="priority">The priority</param>
+    public int Length => _queue.Count;
+
     public void Enqueue(string value, int priority)
     {
         var newNode = new PriorityItem(value, priority);
@@ -32,6 +34,7 @@
 
         // Remove and return the item with the highest priority
         var value = _queue[highPriorityIndex].Value;
+        _queue.RemoveAt(highPriorityIndex);
         return value;
     }
 
