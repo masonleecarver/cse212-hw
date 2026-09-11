@@ -6,9 +6,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 public class PriorityQueueTests
 {
     [TestMethod]
-    // Scenario: 
-    // Expected Result: 
-    // Defect(s) Found: 
+    // Scenario: simple priority que with three items having different priorities.
+    // Expected Result: [ice cream, chestnuts, peanut butter]
+    // Defect(s) Found: chestnuts was dequeued before ice cream
     public void TestPriorityQueue_1()
     {
 
@@ -32,9 +32,9 @@ public class PriorityQueueTests
     }
 
     [TestMethod]
-    // Scenario: 
-    // Expected Result: 
-    // Defect(s) Found: 
+    // Scenario: throw exception when dequeueing from an empty queue
+    // Expected Result: "the queue is empty"
+    // Defect(s) Found: it worked :thumbs-up:
     public void TestPriorityQueue_2()
     {
         var priorityQueue = new PriorityQueue();
@@ -58,6 +58,34 @@ public class PriorityQueueTests
                  string.Format("Unexpected exception of type {0} caught: {1}",
                                 e.GetType(), e.Message)
             );
+        }
+    }
+
+
+    [TestMethod]
+    // Scenario: handle a queue with items having the same priority
+    // Expected Result: [ice cream, candy cane, chestnuts, peanut butter]
+    // Defect(s) Found: candy cane was dequeued before ice cream.
+    public void TestPriorityQueue_3()
+    {
+
+        string[] expectedResult = ["ice cream", "candy cane", "chestnuts", "peanut butter"];
+
+        var priorityQueue = new PriorityQueue();
+        priorityQueue.Enqueue("chestnuts", 1);
+        priorityQueue.Enqueue("ice cream", 2);
+        priorityQueue.Enqueue("peanut butter", 0);
+        priorityQueue.Enqueue("candy cane", 2);
+
+        for (int i = 0; i < priorityQueue.Length; i++)
+        {
+            if (i >= expectedResult.Length)
+            {
+                Assert.Fail("Queue should have ran out of items by now.");
+            }
+
+            var value = priorityQueue.Dequeue();
+            Assert.AreEqual(expectedResult[i], value);
         }
     }
 
