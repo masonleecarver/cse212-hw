@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json;
 
 public static class SetsAndMaps
@@ -22,7 +23,22 @@ public static class SetsAndMaps
     public static string[] FindPairs(string[] words)
     {
         // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        var result = new List<string>();
+        var set = new HashSet<string>(words);
+        foreach (var word in words)
+        {
+            if (word[0] != word[1])
+            {
+               var reverse = $"{word[1]}{word[0]}"; 
+                if (set.Contains(reverse)) {
+                    result.Add($"{word}&{reverse}");
+                    set.Remove(word);
+                    set.Remove(reverse);    
+                }
+            }
+            
+        }
+        return result.ToArray();
     }
 
     /// <summary>
@@ -43,6 +59,15 @@ public static class SetsAndMaps
         {
             var fields = line.Split(",");
             // TODO Problem 2 - ADD YOUR CODE HERE
+            var degree = fields[3];
+
+            if (degrees.ContainsKey(degree))
+            {
+                degrees[degree]++;
+            } else
+            {
+                degrees[degree] = 1;
+            }
         }
 
         return degrees;
@@ -67,7 +92,35 @@ public static class SetsAndMaps
     public static bool IsAnagram(string word1, string word2)
     {
         // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        var dict = new Dictionary<char, int>();
+        word1 = word1.ToLower().Replace(" ", "");
+        word2 = word2.ToLower().Replace(" ", "");
+        if (word1.Length == word2.Length)
+        {
+            foreach (var letter in word1)
+            {
+                if (!dict.ContainsKey(letter))
+                    dict[letter] = 1;
+                else dict[letter]++;
+
+                
+            }
+            foreach (var letter in word2)
+            {
+                if (!dict.ContainsKey(letter))
+                    return false;
+                else
+                {
+                  dict[letter]--;  
+                  if (dict[letter] == 0) 
+                    dict.Remove(letter);
+                }                 
+            }
+        } else return false;
+
+
+
+        return dict.Count == 0;
     }
 
     /// <summary>

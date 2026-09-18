@@ -36,7 +36,6 @@ public class PriorityQueue
         }
 
         // Remove and return the item with the highest priority
-        Debug.WriteLine($"highPriorityIndex: {highPriorityIndex}, Priority: {_queue[highPriorityIndex].Priority}");
         var value = _queue[highPriorityIndex].Value;
         _queue.RemoveAt(highPriorityIndex);
         return value;
